@@ -2,30 +2,24 @@ package com.example.analytics;
 
 import android.os.Bundle;
 import android.util.Log;
-
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.analytics.adapters.CategoryAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class NoteDetailsActivity extends AppCompatActivity {
 
     private FirebaseAnalytics firebaseAnalytics;
-    private RecyclerView recyclerViewCategories;
-    private CategoryAdapter categoryAdapter;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     Calendar calendar = Calendar.getInstance();
@@ -34,20 +28,27 @@ public class MainActivity extends AppCompatActivity {
     int min = calendar.get(Calendar.MINUTE);
     int sec = calendar.get(Calendar.SECOND);
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_note_details);
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-        recyclerViewCategories = findViewById(R.id.recyclerViewCategories);
-        recyclerViewCategories.setLayoutManager(new LinearLayoutManager(this));
-        categoryAdapter = new CategoryAdapter(getCategories());
-        recyclerViewCategories.setAdapter(categoryAdapter);
+        String title = "Note Title";
+        String description = "Note Description";
+        int imageResId = R.drawable.note_image;
 
-        // Track screen view
-        trackScreenView("MainActivity");
+        TextView textViewTitle = findViewById(R.id.textViewNoteTitle);
+        TextView textViewDescription = findViewById(R.id.textViewNoteDescription);
+        ImageView imageViewNote = findViewById(R.id.imageViewNote);
+
+        textViewTitle.setText(title);
+        textViewDescription.setText(description);
+        imageViewNote.setImageResource(imageResId);
+
+        trackScreenView("NoteDetailsActivity");
     }
 
     private void trackScreenView(String screenName) {
@@ -55,14 +56,6 @@ public class MainActivity extends AppCompatActivity {
         bundle.putString(FirebaseAnalytics.Param.SCREEN_NAME, screenName);
         bundle.putString(FirebaseAnalytics.Param.SCREEN_CLASS, getClass().getSimpleName());
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle);
-    }
-
-    private List<String> getCategories() {
-        List<String> categories = new ArrayList<>();
-        categories.add("Category 1");
-        categories.add("Category 2");
-        categories.add("Category 3");
-        return categories;
     }
 
     protected void onPause() {

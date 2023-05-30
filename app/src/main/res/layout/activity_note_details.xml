@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".NoteDetailsActivity">
+
+    <ImageView
+        android:id="@+id/imageViewNote"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/note_placeholder"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/textViewNoteTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imageViewNote"
+        android:layout_marginTop="16dp"
+        android:text="Note Title"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textViewNoteDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textViewNoteDescription"
+        android:layout_marginTop="8dp"
+        android:text="Note Description"
+        android:textSize="16sp" />
+
+</RelativeLayout>

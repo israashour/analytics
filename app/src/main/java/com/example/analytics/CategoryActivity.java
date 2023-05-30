@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.analytics.adapters.CategoryAdapter;
+import com.example.analytics.adapters.NoteAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -21,11 +21,11 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class CategoryActivity extends AppCompatActivity {
 
     private FirebaseAnalytics firebaseAnalytics;
-    private RecyclerView recyclerViewCategories;
-    private CategoryAdapter categoryAdapter;
+    private RecyclerView recyclerViewNotes;
+    private NoteAdapter noteAdapter;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     Calendar calendar = Calendar.getInstance();
@@ -34,20 +34,21 @@ public class MainActivity extends AppCompatActivity {
     int min = calendar.get(Calendar.MINUTE);
     int sec = calendar.get(Calendar.SECOND);
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_category);
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-        recyclerViewCategories = findViewById(R.id.recyclerViewCategories);
-        recyclerViewCategories.setLayoutManager(new LinearLayoutManager(this));
-        categoryAdapter = new CategoryAdapter(getCategories());
-        recyclerViewCategories.setAdapter(categoryAdapter);
+        recyclerViewNotes = findViewById(R.id.recyclerViewNotes);
+        recyclerViewNotes.setLayoutManager(new LinearLayoutManager(this));
+        noteAdapter = new NoteAdapter(getNotes());
+        recyclerViewNotes.setAdapter(noteAdapter);
 
         // Track screen view
-        trackScreenView("MainActivity");
+        trackScreenView("CategoryActivity");
     }
 
     private void trackScreenView(String screenName) {
@@ -57,12 +58,13 @@ public class MainActivity extends AppCompatActivity {
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW, bundle);
     }
 
-    private List<String> getCategories() {
-        List<String> categories = new ArrayList<>();
-        categories.add("Category 1");
-        categories.add("Category 2");
-        categories.add("Category 3");
-        return categories;
+    private List<String> getNotes() {
+
+        List<String> notes = new ArrayList<>();
+        notes.add("Note 1");
+        notes.add("Note 2");
+        notes.add("Note 3");
+        return notes;
     }
 
     protected void onPause() {
